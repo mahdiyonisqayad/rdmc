@@ -1,38 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RDMC - Jigjiga University Institutional Repository
+
+This is a Next.js project for an institutional repository for Jigjiga University. It is designed to store, manage, and disseminate digital assets such as research papers, datasets, and other scholarly materials.
+
+## Key Features
+
+*   **Hierarchical Structure:** The repository is organized into Communities, Collections, and Items, allowing for a flexible and scalable content hierarchy.
+*   **Role-Based Access Control:** The system has a role-based access control system with roles like `USER`, `ADMIN`, `SUBMITTER`, and `REVIEWER`.
+*   **Metadata:** The application supports flexible metadata for describing digital assets, similar to the Dublin Core standard.
+*   **Authentication:** User authentication is handled by NextAuth.js, with support for credentials-based login.
+
+## Technologies Used
+
+*   **Framework:** [Next.js](https://nextjs.org/)
+*   **Authentication:** [NextAuth.js](https://next-auth.js.org/)
+*   **ORM:** [Prisma](https://www.prisma.io/)
+*   **Database:** [PostgreSQL](https://www.postgresql.org/)
+*   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+*   **UI Components:** [Lucide React](https://lucide.dev/guide/packages/lucide-react) for icons.
 
 ## Getting Started
 
-First, run the development server:
+1.  **Install dependencies:**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+    ```bash
+    npm install
+    ```
+
+2.  **Set up the database:**
+
+    *   Make sure you have a PostgreSQL database running.
+    *   Create a `.env` file and set the `DATABASE_URL` environment variable.
+    *   Run the following command to sync the database schema:
+
+        ```bash
+        npx prisma db push
+        ```
+
+3.  **Run the development server:**
+
+    ```bash
+    npm run dev
+    ```
+
+    The application will be available at [http://localhost:3000](http://localhost:3000).
+
+## Project Structure
+
+```
+.
+├── app/
+│   ├── (browse)/
+│   │   ├── collections/[collectionId]/page.tsx
+│   │   ├── communities/[communityId]/page.tsx
+│   │   └── items/[itemId]/page.tsx
+│   ├── api/
+│   │   └── auth/[...nextauth]/route.ts
+│   ├── repo/
+│   │   └── page.tsx
+│   ├── signin/
+│   │   └── page.tsx
+│   └── signup/
+│       └── page.tsx
+├── components/
+│   ├── auth/
+│   │   ├── SignInButton.tsx
+│   │   └── UserNav.tsx
+│   ├── layout/
+│   │   ├── Footer.tsx
+│   │   └── Navbar.tsx
+│   └── ui/
+│       ├── Button.tsx
+│       └── Card.tsx
+├── lib/
+│   ├── auth.ts
+│   ├── prisma.ts
+│   └── utils.ts
+├── prisma/
+│   └── schema.prisma
+└── public/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Authentication
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Authentication is handled by [NextAuth.js](https://next-auth.js.org/). The configuration is in `app/api/auth/[...nextauth]/route.ts`. The application uses a credentials-based login system.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The `User` model in `prisma/schema.prisma` has a `role` field that can be one of `USER`, `ADMIN`, `SUBMITTER`, or `REVIEWER`. This allows for role-based access control to different parts of the application.
 
-## Learn More
+## Database
 
-To learn more about Next.js, take a look at the following resources:
+The database schema is defined in `prisma/schema.prisma`. [Prisma](https://www.prisma.io/) is used as the ORM to interact with the PostgreSQL database.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The schema includes models for:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+*   **Authentication:** `User`, `Account`, `Session`, `VerificationToken`
+*   **Institutional Repository:** `Community`, `Collection`, `Item`, `MetadataField`, `Bitstream`
 
-## Deploy on Vercel
+## Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contributions are welcome! Please feel free to open an issue or submit a pull request.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# rdmc
-# rdmc
+## License
+
+This project is licensed under the MIT License.
